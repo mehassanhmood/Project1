@@ -20,18 +20,18 @@
         delegate_to: localhost
 
     - name: Create Python virtual environment
-        command: python3 -m venv "{{dest_directory}}/venv"
+        command: python3 -m venv "{{ dest_directory }}/venv"
         when: project_directory.changed  # Only create venv if the directory was created
 
     - name: Activate the virtual environment
-        command: source  "{{dest_directory}}/venv/bin/activate"
+        command: source  "{{ dest_directory }}/venv/bin/activate"
         environment:
-                VIRTUAL_ENV: "{{dest_directory}}/venv"
+                VIRTUAL_ENV: "{{ dest_directory }}/venv"
         when: project_directory.changed
 
     - name: Install libraries from requirements.txt
       pip:
-        requirements: "{{dest_directory}}/requirements.txt"
+        requirements: "{{ dest_directory }}/requirements.txt"
       when: project_directory.changed
 
     - name: Install Nginx
