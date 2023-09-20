@@ -24,10 +24,10 @@
       when: project_directory.changed  # Only create venv if the directory was created
 
     - name: Activate the virtual environment
-        command: source  /opt/app/strokeModel/venv/bin/activate
-        environment:
-                VIRTUAL_ENV: "{{ dest_directory }}"/venv
-        when: project_directory.changed
+      command: source  /opt/app/strokeModel/venv/bin/activate
+      environment:
+             VIRTUAL_ENV: "{{ dest_directory }}"/venv
+      when: project_directory.changed
 
     - name: Install libraries from requirements.txt
       pip:
