@@ -26,7 +26,7 @@
     - name: Activate the virtual environment
       command: source  /opt/app/strokeModel/venv/bin/activate
       environment:
-             VIRTUAL_ENV: "{{ dest_directory }}"/venv
+             VIRTUAL_ENV:  /opt/app/strokeModel/venv
       when: project_directory.changed
 
     - name: Install libraries from requirements.txt
