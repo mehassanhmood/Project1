@@ -20,7 +20,7 @@
         delegate_to: localhost
 
     - name: Create Python virtual environment
-        command: python3 -m venv "{{ dest_directory }}/venv"
+      command: python3 -m venv " {{ dest_directory }}/venv"
         when: project_directory.changed  # Only create venv if the directory was created
 
     - name: Activate the virtual environment
