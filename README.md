@@ -3,16 +3,16 @@
   - This project focuses on predicting stroke risk using healthcare data. It covers data preprocessing, feature selection, model training, and evaluation.    - The primary goal is to develop a model that can accurately predict stroke risk based on various features.
 
 ## Dependencies:
-  - Before running the project, ensure you have the following Python libraries and dependencies installed:
+- Before running the project, ensure you have the following Python libraries and dependencies installed:
 
-  - pandas
-- numpy
-- scikit-learn
-- xgboost
-- matplotlib
-- seaborn
-- imbalanced-learn (imblearn)
-- joblib
+  1. pandas
+  2. numpy
+  3. scikit-learn
+  4. xgboost
+  5. matplotlib
+  6. seaborn
+  7. imbalanced-learn (imblearn)
+  8. joblib
 - You can install these libraries using pip:
 
 ```bash```
