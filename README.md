@@ -1,6 +1,7 @@
 # Project Title: Healthcare Stroke Prediction
 ## Introduction:
-  - This project focuses on predicting stroke risk using healthcare data. It covers data preprocessing, feature selection, model training, and evaluation.    - The primary goal is to develop a model that can accurately predict stroke risk based on various features.
+  - This project focuses on predicting stroke risk using healthcare data. It covers data preprocessing, feature selection, model training, and evaluation.
+  - The primary goal is to develop a model that can accurately predict stroke risk based on various features.
 
 ## Dependencies:
 - Before running the project, ensure you have the following Python libraries and dependencies installed:
