@@ -15,8 +15,9 @@
   8. joblib
 - You can install these libraries using pip:
 
-```bash```
-  pip install pandas numpy scikit-learn xgboost matplotlib seaborn imbalanced-learn joblib
+```bash
+pip install --user pandas numpy scikit-learn xgboost matplotlib seaborn imbalanced-learn joblib
+```
 ## Data Import:
   - The project begins by importing the dataset from the 'healthcare-dataset-stroke-data.csv' file. The dataset is explored to understand its structure, data types, and missing values.
 
