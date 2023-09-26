@@ -52,7 +52,9 @@ Submit
 </div>
 <div class="modal-body">
   <div class="container">
-<h4 style="color:white">Do you consent for your data to be stored and shared with health care providers. ? </h4>
+
+<h4 style="color:black">Do you consent to have your data stored and shared with healthcare providers? </h4>
+
 <form class="form-horizontal" action="/">
             <div class="form-group">
                 <label for="choice">Choose:</label>
@@ -125,17 +127,19 @@ if "choice" in query_param:
 
             # Create a DataFrame
             # st.markdown(os.environ.get('DATASET_PATH'))
-            df = pd.DataFrame(data)
+    df = pd.DataFrame(data)
             # df2 = pd.read_csv(os.environ.get("DATASET_PATH"))
-            # df2 = pd.read_csv('./data/healthcare-dataset-stroke-data-clean.csv')[['age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi', 'gender_Male', 'smoking_status_formerly_smoked', 'smoking_status_never_smoked', 'smoking_status_smokes']]
-            # df2 = pd.concat([df2,df]).reset_index(drop = True)
-            scaled = [StandardScaler().fit_transform(df)]
-            # model = joblib.load(os.environ.get("MODEL_PATH"))
-            model = joblib.load('../xgb_model1.pkl')
-            pred = model.predict(scaled)
-            predict=model.predict_proba(scaled)
-            proba = "{:.2f}".format(predict[0][1]*100)
-            print(predict)
-            #st.markdown(predict)
-            st.title(str(f"Based onthe provided data following are the results: {proba}% at risk of stroke"))
-                # Add your flow code here 
+            #df2 = pd.read_csv('./data/healthcare-dataset-stroke-data-clean.csv')[['age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi', 'gender_Male', 'smoking_status_formerly_smoked', 'smoking_status_never_smoked', 'smoking_status_smokes']]
+            #df2 = pd.concat([df2,df]).reset_index(drop = True)
+    model_path = ("C:\\Users\\mehas\\Desktop\\Study\\GeorgeBrown\\Project1\\xgb_model1.pkl")
+    model = joblib.load(model_path)
+        #scalar_model = joblib.load(os.environ.get("ECONDED_MODEL_PATH"))
+    scaler_path = ("C:\\Users\\mehas\\Desktop\\Study\\GeorgeBrown\\Project1\\scaler.pkl")
+    scaler_model = joblib.load(scaler_path)
+    df = scaler_model.fit_transform(df)
+    predict=model.predict_proba(df)
+    proba = "{:.2f}".format(predict[0][1]*100)
+        #st.markdown(predict)
+    st.title(str(f"Based on the provided data following are the results: {proba}% at risk of stroke"))
+    st.experimental_set_query_params(choice= "no") 
+                # Add your flow code here
