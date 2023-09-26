@@ -8,9 +8,9 @@ from sklearn.preprocessing import StandardScaler
 import xgboost
 hc.hydralit_experimental(True)
 CLASS_NAMES = ['No Stroke','Stroke']
-st.title("Project george brown Health Care Stroke Classification")
-st.markdown("Fill the information about the Stroke")
-age = st.number_input("Enter with your age:")
+st.title("Project George Brown Health Care Stroke Classification")
+st.markdown("Fill your health attributes.")
+age = st.number_input("Enter your age:")
 #gender= st.selectbox(
  #   'Select your gender?',
   #  ('Male','Female'))
@@ -23,13 +23,13 @@ heart_disease = st.selectbox(
 smoke_status = st.selectbox(
     'Do you smoke?',
     ('Never','Yes',"Sometimes"))
-glucose_level= st.number_input("Enter the Glucose Level:")
+glucose_level= st.number_input("Enter your latest blood glucose level:")
 #bmi = st.number_input("Enter with your Bmi")
 residence = st.selectbox(
-    'What kind of area do you live?',
+    'Area of residence?',
     ('Urban','Rural'))
 work = st.selectbox(
-    'What kind of work are you on ?',
+    'What kind of work are you in ?',
     ('Self-employed ','Private',"Public"))
 
 modal = Modal(title="Data Permission",key="modal-data-sensitive",max_width=450)
@@ -52,7 +52,7 @@ Submit
 </div>
 <div class="modal-body">
   <div class="container">
-<h4 style="color:black">Do you agree to share the information input in the form with us ? </h4>
+<h4 style="color:black">Do you consent for your data to be stored and shared with health care providers. ? </h4>
 <form class="form-horizontal" action="/">
             <div class="form-group">
                 <label for="choice">Choose:</label>
@@ -127,14 +127,14 @@ if "choice" in query_param:
             # st.markdown(os.environ.get('DATASET_PATH'))
             df = pd.DataFrame(data)
             # df2 = pd.read_csv(os.environ.get("DATASET_PATH"))
-            df2 = pd.read_csv('./data/healthcare-dataset-stroke-data-clean.csv')[['age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi', 'gender_Male', 'smoking_status_formerly_smoked', 'smoking_status_never_smoked', 'smoking_status_smokes']]
-            df2 = pd.concat([df2,df]).reset_index(drop = True)
-            scaled = [StandardScaler().fit_transform(df2)[-1]]
+            #df2 = pd.read_csv('./data/healthcare-dataset-stroke-data-clean.csv')[['age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi', 'gender_Male', 'smoking_status_formerly_smoked', 'smoking_status_never_smoked', 'smoking_status_smokes']]
+            #df2 = pd.concat([df2,df]).reset_index(drop = True)
             model = joblib.load(os.environ.get("MODEL_PATH"))
-            print(model)
-            predict=model.predict_proba(scaled)
+            scalar_model = joblib.load(os.environ.get("ECONDED_MODEL_PATH"))
+            df = scalar_model.fit_transform(df)
+            predict=model.predict_proba(df)
             proba = "{:.2f}".format(predict[0][1]*100)
-            print(predict)
             #st.markdown(predict)
-            st.title(str(f"The pacient was {proba}% certain with {CLASS_NAMES[1]}"))
-                # Add your flow code here 
+            st.title(str(f"Based onthe provided data following are the results: {proba}% at risk of stroke"))
+            st.experimental_set_query_params(choice= "no") 
+                # Add your flow code here
