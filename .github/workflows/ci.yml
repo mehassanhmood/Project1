@@ -21,9 +21,5 @@ jobs:
     - name: Install Ansible
       run: pip install ansible
       # Add the remote host's fingerprint to known_hosts
-    - name: Add Host Key to known_hosts
-      run: ssh-keyscan -H 178.128.232.4 >> ~/.ssh/known_hosts
-      env:
-        ANSIBLE_HOST_KEY_CHECKING: "False"
     - name: Run Ansible playbook
       run: ansible-playbook -i  infra/ansible/servers.ini ./infra/ansible/pipeline.yml --extra-vars "local_directory=${{ github.workspace }}" 
