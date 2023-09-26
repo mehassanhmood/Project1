@@ -52,7 +52,11 @@ Submit
 </div>
 <div class="modal-body">
   <div class="container">
+<<<<<<< HEAD
 <h4 style="color:white">Do you consent for your data to be stored and shared with health care providers. ? </h4>
+=======
+<h4 style="color:black">Do you consent for your data to be stored and shared with health care providers. ? </h4>
+>>>>>>> origin/develop
 <form class="form-horizontal" action="/">
             <div class="form-group">
                 <label for="choice">Choose:</label>
@@ -127,6 +131,7 @@ if "choice" in query_param:
             # st.markdown(os.environ.get('DATASET_PATH'))
             df = pd.DataFrame(data)
             # df2 = pd.read_csv(os.environ.get("DATASET_PATH"))
+<<<<<<< HEAD
             # df2 = pd.read_csv('./data/healthcare-dataset-stroke-data-clean.csv')[['age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi', 'gender_Male', 'smoking_status_formerly_smoked', 'smoking_status_never_smoked', 'smoking_status_smokes']]
             # df2 = pd.concat([df2,df]).reset_index(drop = True)
             scaled = [StandardScaler().fit_transform(df)]
@@ -134,8 +139,20 @@ if "choice" in query_param:
             model = joblib.load('../xgb_model1.pkl')
             pred = model.predict(scaled)
             predict=model.predict_proba(scaled)
+=======
+            #df2 = pd.read_csv('./data/healthcare-dataset-stroke-data-clean.csv')[['age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi', 'gender_Male', 'smoking_status_formerly_smoked', 'smoking_status_never_smoked', 'smoking_status_smokes']]
+            #df2 = pd.concat([df2,df]).reset_index(drop = True)
+            model = joblib.load(os.environ.get("MODEL_PATH"))
+            scalar_model = joblib.load(os.environ.get("ECONDED_MODEL_PATH"))
+            df = scalar_model.fit_transform(df)
+            predict=model.predict_proba(df)
+>>>>>>> origin/develop
             proba = "{:.2f}".format(predict[0][1]*100)
-            print(predict)
             #st.markdown(predict)
             st.title(str(f"Based onthe provided data following are the results: {proba}% at risk of stroke"))
+<<<<<<< HEAD
                 # Add your flow code here 
+=======
+            st.experimental_set_query_params(choice= "no") 
+                # Add your flow code here
+>>>>>>> origin/develop
