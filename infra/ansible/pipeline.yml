@@ -1,0 +1,66 @@
+- name: Update Ubuntu, Install Nginx, Deploy Config, and Run Python Scripts
+  hosts: servers
+  become: true  # This allows Ansible to execute commands with sudo
+  vars:
+    dest_directory: /opt/app/strokeModel
+  tasks:
+    - name: Update Ubuntu packages
+      apt:
+        update_cache: yes
+      become: true
+    - name: Create destination directory if it doesn't exist
+      file:
+        path: "{{dest_directory}}"
+        state: directory
+      register: project_directory
+    - name: Copy directory to server
+      copy:
+        src: "{{ local_directory }}" 
+        dest: "{{ dest_directory }}"
+      become: true
+    - name: Create Python virtual environment
+      command: python3 -m venv /opt/app/strokeModel/venv
+      when: project_directory.changed  # Only create venv if the directory was created
+
+    - name: Activate the virtual environment
+      command: source  /opt/app/strokeModel/venv/bin/activate
+      environment:
+             VIRTUAL_ENV:  /opt/app/strokeModel/venv
+      when: project_directory.changed
+
+    - name: Install libraries from requirements.txt
+      pip:
+        requirements: /opt/app/strokeModel/requirements.txt
+      when: project_directory.changed
+
+    - name: Traing the model
+      command: PATH_CSV="/opt/app/strokeModel/data/healthcare-dataset-stroke-data.csv" PATH_SAVE="/opt/app/strokeModel/model/" python3 opt/app/strokeModel/process/model.py
+      become: true
+
+    - name: Test if the model is created
+      command: DIRECTORY_PATH='/opt/app/strokeModel/model/' python3 /opt/app/strokeModel/test/test.py
+      become: true
+
+    - name: Run the server 
+      command:  MODEL_PATH="/opt/app/strokeModel/model/model.pkl" python3 -m streamlit run  /opt/app/strokeModel/service/server.py
+      become: true
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+      become: true
+
+    - name: Deploy Nginx Configuration
+      copy:
+        src: /opt/app/strokeModel/infra/nginx/nginx.conf  # Replace with your Nginx configuration file path
+        dest: /etc/nginx/nginx.conf
+      become: true
+      notify:
+        - Reload Nginx
+
+
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
